@@ -1,144 +1,538 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dhakshatha M K | Portfolio Terminal</title>
-    <link rel="stylesheet" href="style.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Orbitron:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div class="glow-overlay"></div>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dhakshatha M K — Biomedical Engineer</title>
+<meta name="description" content="Dhakshatha M K — biomedical engineer. Gesture-interactive surgical visualization, touchless DICOM navigation, embedded systems. IEEE TENCON 2026 (Bali) · IEEE EMBC 2026 (Toronto).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07090b;
+    --bg-elev:#0e1114;
+    --bg-elev2:#14181c;
+    --ink:#f5f4f2;
+    --ink-dim:#9a9ca0;
+    --ink-dimmer:#65686c;
+    --maroon:#b03a52;
+    --maroon-bright:#d94e68;
+    --maroon-dim:#4a1f29;
+    --line:rgba(245,244,242,0.09);
+    --line-strong:rgba(245,244,242,0.16);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} *{animation-duration:.001ms !important; transition-duration:.001ms !important;} }
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:'Inter', -apple-system, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--maroon); color:#fff; }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+  @media (max-width:700px){ .wrap{padding:0 22px;} }
 
-    <main class="dashboard">
-      <aside class="sidebar">
-        <div class="profile-card">
-          <div class="avatar-container">
-            <div class="avatar-ring"></div>
-            <div class="avatar-hex">DMK</div>
-          </div>
-          <h1 class="player-name">Dhakshatha M K</h1>
-          <p class="player-title">Biomedical Engineer [Lvl 3]</p>
-          <div class="xp-container">
-            <div class="xp-label">CGPA PROGRESS <span>85%</span></div>
-            <div class="xp-bar">
-              <div class="xp-fill" style="width: 85%"></div>
-            </div>
-          </div>
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);}
+  .reveal.in{opacity:1; transform:none;}
+  .reveal-d1.in{transition-delay:.08s;} .reveal-d2.in{transition-delay:.16s;} .reveal-d3.in{transition-delay:.24s;}
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:18px 0;
+    background:rgba(7,9,11,0);
+    border-bottom:1px solid transparent;
+    transition:background .4s ease, border-color .4s ease, padding .4s ease;
+  }
+  header.nav.scrolled{
+    background:rgba(7,9,11,0.78);
+    backdrop-filter:blur(16px) saturate(140%);
+    border-bottom:1px solid var(--line);
+    padding:13px 0;
+  }
+  .navbar{max-width:1180px; margin:0 auto; padding:0 32px; display:flex; align-items:center; justify-content:space-between;}
+  @media (max-width:700px){ .navbar{padding:0 22px;} }
+  .brand{font-weight:700; font-size:0.95rem; letter-spacing:-0.01em;}
+  .brand span{color:var(--maroon-bright);}
+  nav.links{display:flex; gap:34px; font-size:0.84rem; color:var(--ink-dim);}
+  nav.links a{transition:color .2s ease; margin-right:34px;}
+  nav.links a:last-child{margin-right:0;}
+  nav.links a:hover{color:var(--ink);}
+  .nav-cta{
+    font-size:0.8rem; padding:9px 18px; border-radius:100px;
+    border:1px solid var(--line-strong); color:var(--ink);
+    transition:border-color .2s ease, background .2s ease;
+  }
+  .nav-cta:hover{border-color:var(--maroon-bright); background:rgba(176,58,82,0.12);}
+  .nav-toggle{display:none; background:none; border:1px solid var(--line-strong); border-radius:8px; width:38px; height:34px; color:var(--ink);}
+  @media (max-width:760px){
+    nav.links{position:fixed; inset:60px 0 auto 0; background:rgba(7,9,11,0.97); backdrop-filter:blur(14px);
+      flex-direction:column; padding:22px; gap:20px; border-bottom:1px solid var(--line);
+      transform:translateY(-120%); transition:transform .3s ease;}
+    nav.links.open{transform:translateY(0);}
+    .nav-toggle{display:block;}
+    .nav-cta{display:none;}
+  }
+  :focus-visible{outline:2px solid var(--maroon-bright); outline-offset:3px;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:100svh; display:flex; flex-direction:column; justify-content:center;
+    position:relative; padding:140px 0 90px; overflow:hidden;
+  }
+  .hero-glow{
+    position:absolute; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(ellipse 60% 50% at 25% 15%, rgba(176,58,82,0.22), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 85% 75%, rgba(176,58,82,0.10), transparent 60%);
+  }
+  .hero .wrap{position:relative; z-index:1;}
+  .eyebrow-badge{
+    display:inline-flex; align-items:center; gap:9px;
+    border:1px solid var(--line-strong); border-radius:100px; padding:7px 16px 7px 12px;
+    font-size:0.78rem; color:var(--ink-dim); margin-bottom:34px;
+  }
+  .eyebrow-badge .dot{width:7px; height:7px; border-radius:50%; background:var(--maroon-bright); box-shadow:0 0 0 4px rgba(217,78,104,0.18); flex:none;
+    animation:pulse-dot 2.4s ease-in-out infinite;}
+  @keyframes pulse-dot{ 0%,100%{opacity:1;} 50%{opacity:.4;} }
+  h1.hero-name{
+    font-size:clamp(1.3rem, 2.6vw, 1.6rem); font-weight:500; color:var(--ink-dim);
+    letter-spacing:0.01em; margin-bottom:10px;
+  }
+  .hero-headline{
+    font-size:clamp(2.6rem, 7vw, 5.6rem); font-weight:800; line-height:1.03; letter-spacing:-0.03em;
+    max-width:15ch;
+  }
+  .hero-headline em{ font-style:normal; color:var(--maroon-bright); }
+  .hero-sub{
+    margin-top:28px; font-size:clamp(1.05rem,2vw,1.3rem); color:var(--ink-dim); max-width:46ch; font-weight:400; line-height:1.55;
+  }
+  .hero-actions{margin-top:42px; display:flex; gap:16px; flex-wrap:wrap;}
+  .btn{
+    font-size:0.92rem; font-weight:600; padding:15px 28px; border-radius:100px;
+    display:inline-flex; align-items:center; gap:8px; transition:transform .25s cubic-bezier(.2,.8,.2,1), background .25s ease, border-color .25s ease;
+  }
+  .btn-primary{background:var(--maroon-bright); color:#0a0607;}
+  .btn-primary:hover{transform:translateY(-3px); background:#ea5c76;}
+  .btn-secondary{border:1px solid var(--line-strong); color:var(--ink);}
+  .btn-secondary:hover{transform:translateY(-3px); border-color:var(--ink-dim);}
+
+  .hero-trace{position:absolute; left:0; right:0; bottom:40px; height:70px; opacity:0.55; z-index:0;}
+
+  .scroll-cue{
+    position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+    display:flex; flex-direction:column; align-items:center; gap:8px; color:var(--ink-dimmer); font-size:0.72rem;
+    letter-spacing:0.08em; text-transform:uppercase;
+  }
+  .scroll-cue .stick{width:1px; height:34px; background:linear-gradient(var(--ink-dimmer), transparent); animation:scrollpulse 1.8s ease-in-out infinite;}
+  @keyframes scrollpulse{ 0%,100%{opacity:.3;} 50%{opacity:1;} }
+
+  /* ---------- SECTIONS GENERIC ---------- */
+  section{padding:150px 0;}
+  @media (max-width:760px){ section{padding:96px 0;} }
+  .section-kicker{font-size:0.8rem; color:var(--maroon-bright); font-weight:600; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:18px;}
+  .section-title{font-size:clamp(2rem,4.2vw,3.4rem); font-weight:800; letter-spacing:-0.02em; line-height:1.08; max-width:18ch;}
+  .section-lede{margin-top:22px; font-size:clamp(1.02rem,1.6vw,1.2rem); color:var(--ink-dim); max-width:56ch; line-height:1.65; font-weight:400;}
+
+  /* ---------- WORK (feature cards) ---------- */
+  .work-grid{margin-top:72px; display:flex; flex-direction:column; gap:2px;}
+  .work-card{
+    display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;
+    padding:64px 0; border-top:1px solid var(--line);
+  }
+  .work-card:last-child{border-bottom:1px solid var(--line);}
+  @media (max-width:860px){ .work-card{grid-template-columns:1fr; gap:30px; padding:48px 0;} }
+  .work-card:nth-child(even) .work-art{order:2;}
+  @media (max-width:860px){ .work-card:nth-child(even) .work-art{order:0;} }
+  .work-art{
+    aspect-ratio:4/3; min-height:240px; border-radius:20px; position:relative; overflow:hidden;
+    background:var(--bg-elev);
+  }
+  .work-art .blob{position:absolute; border-radius:50%; filter:blur(50px);}
+  .work-tag{font-size:0.75rem; color:var(--maroon-bright); font-weight:600; letter-spacing:0.07em; text-transform:uppercase; margin-bottom:14px;}
+  .work-title{font-size:clamp(1.5rem,2.6vw,2.1rem); font-weight:700; letter-spacing:-0.01em; line-height:1.15;}
+  .work-desc{margin-top:16px; color:var(--ink-dim); font-size:1.02rem; line-height:1.65; max-width:48ch;}
+  .work-meta{margin-top:24px; display:flex; flex-wrap:wrap; gap:10px;}
+  .pill{font-size:0.76rem; color:var(--ink-dim); border:1px solid var(--line-strong); border-radius:100px; padding:6px 13px;}
+  .work-badge{margin-top:22px; display:inline-flex; align-items:center; gap:8px; font-size:0.86rem; font-weight:600; color:var(--ink);}
+  .work-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--maroon-bright);}
+
+  /* ---------- CONFERENCE STRIP ---------- */
+  .conf-strip{background:var(--bg-elev); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .conf-grid{display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-top:56px;}
+  @media (max-width:760px){ .conf-grid{grid-template-columns:1fr;} }
+  .conf-card{background:var(--bg); padding:40px 36px; position:relative;}
+  .conf-year{font-family:'IBM Plex Mono',monospace; font-size:0.78rem; color:var(--ink-dimmer); letter-spacing:0.06em;}
+  .conf-name{margin-top:10px; font-size:1.5rem; font-weight:700; letter-spacing:-0.01em;}
+  .conf-loc{margin-top:8px; color:var(--maroon-bright); font-size:0.92rem; font-weight:600;}
+  .conf-desc{margin-top:16px; color:var(--ink-dim); font-size:0.94rem; line-height:1.6;}
+
+  /* ---------- EXPERIENCE ---------- */
+  .exp-list{margin-top:64px; display:flex; flex-direction:column;}
+  .exp-row{display:grid; grid-template-columns:200px 1fr; gap:40px; padding:34px 0; border-top:1px solid var(--line);}
+  .exp-list > .exp-row:last-child{border-bottom:1px solid var(--line);}
+  @media (max-width:700px){ .exp-row{grid-template-columns:1fr; gap:8px;} }
+  .exp-date{font-family:'IBM Plex Mono',monospace; font-size:0.84rem; color:var(--ink-dimmer); padding-top:3px;}
+  .exp-role{font-size:1.15rem; font-weight:700;}
+  .exp-org{color:var(--maroon-bright); font-size:0.92rem; font-weight:600; margin-top:4px;}
+  .exp-bullets{margin-top:14px; color:var(--ink-dim); font-size:0.95rem; line-height:1.7;}
+  .exp-bullets li{list-style:none; position:relative; padding-left:18px; margin-top:6px;}
+  .exp-bullets li::before{content:"—"; position:absolute; left:0; color:var(--ink-dimmer);}
+
+  /* ---------- STATS ---------- */
+  .stats-band{display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--line); border-left:1px solid var(--line); margin-top:72px;}
+  @media (max-width:700px){ .stats-band{grid-template-columns:repeat(2,1fr);} }
+  .stat{padding:34px 28px; border-right:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .stat .num{font-size:clamp(2rem,3.4vw,2.8rem); font-weight:800; letter-spacing:-0.02em; color:var(--ink);}
+  .stat .lbl{margin-top:8px; font-size:0.82rem; color:var(--ink-dim);}
+
+  /* ---------- AWARDS marquee-ish grid ---------- */
+  .awards-grid{margin-top:64px; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line);}
+  @media (max-width:860px){ .awards-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .awards-grid{grid-template-columns:1fr;} }
+  .award-cell{background:var(--bg); padding:28px 24px;}
+  .award-cell .yr{font-family:'IBM Plex Mono',monospace; font-size:0.74rem; color:var(--maroon-bright);}
+  .award-cell .nm{margin-top:8px; font-size:0.98rem; font-weight:600; line-height:1.4;}
+  .award-cell .by{margin-top:6px; font-size:0.82rem; color:var(--ink-dimmer);}
+
+  /* ---------- SKILLS spec sheet ---------- */
+  .spec-grid{margin-top:64px; display:grid; grid-template-columns:repeat(2,1fr); gap:56px 60px;}
+  @media (max-width:700px){ .spec-grid{grid-template-columns:1fr; gap:40px;} }
+  .spec-cat{font-size:0.78rem; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:var(--maroon-bright); margin-bottom:16px;}
+  .spec-items{display:flex; flex-wrap:wrap; gap:10px;}
+  .spec-item{font-size:0.9rem; color:var(--ink); border:1px solid var(--line-strong); border-radius:8px; padding:9px 14px;}
+
+  /* ---------- LEADERSHIP quote block ---------- */
+  .quote-block{padding:100px 0; text-align:left;}
+  .quote-mark{font-size:4rem; color:var(--maroon-dim); font-weight:800; line-height:0.5; margin-bottom:10px;}
+  blockquote{font-size:clamp(1.3rem,2.6vw,1.9rem); font-weight:500; line-height:1.5; max-width:38ch; letter-spacing:-0.01em;}
+  .quote-cite{margin-top:26px; color:var(--ink-dim); font-size:0.9rem;}
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  footer{padding:150px 0 50px; position:relative; overflow:hidden;}
+  @media (max-width:760px){ footer{padding:96px 0 40px;} }
+  .footer-glow{position:absolute; inset:0; z-index:0; pointer-events:none;
+    background:radial-gradient(ellipse 60% 50% at 70% 20%, rgba(176,58,82,0.18), transparent 60%);}
+  footer .wrap{position:relative; z-index:1;}
+  .footer-title{font-size:clamp(2.2rem,5.5vw,4.2rem); font-weight:800; letter-spacing:-0.03em; max-width:16ch; line-height:1.08;}
+  .footer-sub{margin-top:20px; color:var(--ink-dim); font-size:1.05rem; max-width:48ch;}
+  .footer-links{margin-top:46px; display:flex; flex-wrap:wrap; gap:14px;}
+  .footer-links a{
+    font-size:0.92rem; font-weight:600; border:1px solid var(--line-strong); border-radius:100px;
+    padding:13px 22px; display:inline-flex; align-items:center; gap:8px; transition:border-color .2s ease, background .2s ease, transform .2s ease;
+  }
+  .footer-links a:hover{border-color:var(--maroon-bright); background:rgba(176,58,82,0.1); transform:translateY(-2px);}
+  .footer-bottom{margin-top:90px; padding-top:26px; border-top:1px solid var(--line); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:0.78rem; color:var(--ink-dimmer);}
+</style>
+</head>
+<body>
+
+<header class="nav" id="siteNav">
+  <div class="navbar">
+    <a class="brand" href="#top">DMK<span>.</span></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <nav class="links" id="navLinks">
+      <a href="#work">Work</a>
+      <a href="#conferences">Conferences</a>
+      <a href="#experience">Experience</a>
+      <a href="#leadership">IEEE</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="nav-cta" href="#contact">Get in touch</a>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="eyebrow-badge"><span class="dot"></span> Presenting at IEEE TENCON 2026 — Bali, this week</div>
+    <h1 class="hero-name">Dhakshatha M K</h1>
+    <div class="hero-headline">Engineering <em>health,</em> one signal at a time.</div>
+    <p class="hero-sub">Biomedical engineer building gesture-interactive, browser-native tools for clinical visualization — from a touchless DICOM viewer to a coronary-visualization pipeline heading to IEEE TENCON 2026. Currently an embedded software intern at KONE.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#work">See the work ↓</a>
+      <a class="btn btn-secondary" href="#contact">Get in touch</a>
+    </div>
+  </div>
+  <canvas class="hero-trace" id="trace" aria-hidden="true"></canvas>
+  <div class="scroll-cue"><span>Scroll</span><span class="stick"></span></div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <div class="section-kicker reveal">Selected work</div>
+    <h2 class="section-title reveal">Three problems worth solving</h2>
+    <p class="section-lede reveal">Each one starts with a biosignal or a medical image, and ends with something a clinician can use without friction.</p>
+
+    <div class="work-grid">
+      <div class="work-card reveal">
+        <div class="work-art">
+          <div class="blob" style="width:70%;height:70%;top:-10%;left:-10%;background:var(--maroon);opacity:.5;"></div>
+          <div class="blob" style="width:50%;height:50%;bottom:-5%;right:0%;background:#2b3a4a;opacity:.6;"></div>
         </div>
+        <div>
+          <div class="work-tag">Research · 2026</div>
+          <div class="work-title">Bio-Vision Surgical</div>
+          <p class="work-desc">A browser-native, gesture-interactive pipeline for patient-specific coronary visualization, running entirely on consumer hardware — exploring medical imaging, gesture recognition, and interactive visualization for clinical use.</p>
+          <div class="work-meta"><span class="pill">Browser-native</span><span class="pill">Gesture interaction</span><span class="pill">Coronary visualization</span></div>
+          <div class="work-badge">Accepted — IEEE TENCON 2026, Bali</div>
+        </div>
+      </div>
 
-        <nav class="stats-box">
-          <h3>TRAITS (Soft Skills)</h3>
-          <ul class="trait-list">
-            <li><span class="dot"></span> Team Management</li>
-            <li><span class="dot"></span> Public Speaking</li>
-            <li><span class="dot"></span> Professional Networking</li>
-            <li><span class="dot"></span> Leadership</li>
+      <div class="work-card reveal">
+        <div class="work-art">
+          <div class="blob" style="width:65%;height:65%;top:0%;right:-10%;background:var(--maroon);opacity:.45;"></div>
+          <div class="blob" style="width:55%;height:55%;bottom:-10%;left:-5%;background:#2b3a4a;opacity:.55;"></div>
+        </div>
+        <div>
+          <div class="work-tag">Research · 2026</div>
+          <div class="work-title">Zero-Footprint Virtual Dissection</div>
+          <p class="work-desc">A touchless DICOM navigation system built for sterile operating rooms — MediaPipe, Cornerstone.js, TypeScript, and Electron combine for hardware-free interaction with medical images in resource-constrained clinical settings.</p>
+          <div class="work-meta"><span class="pill">MediaPipe</span><span class="pill">Cornerstone.js</span><span class="pill">Electron</span></div>
+          <div class="work-badge">Research poster — IEEE EMBC 2026, Toronto</div>
+        </div>
+      </div>
+
+      <div class="work-card reveal">
+        <div class="work-art">
+          <div class="blob" style="width:60%;height:60%;top:-5%;left:0%;background:var(--maroon);opacity:.4;"></div>
+          <div class="blob" style="width:45%;height:45%;bottom:0%;right:-5%;background:#2b3a4a;opacity:.5;"></div>
+        </div>
+        <div>
+          <div class="work-tag">Project · Dec 2025</div>
+          <div class="work-title">SmartBio Air</div>
+          <p class="work-desc">An ESP32-based active algae health monitoring system, optimizing bioreactor control for environmental carbon sequestration through continuous sensor feedback.</p>
+          <div class="work-meta"><span class="pill">ESP32</span><span class="pill">Sensors</span><span class="pill">Environmental</span></div>
+          <div class="work-badge">Finalist — IEEE APSCON MYOSA 4.0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="conf-strip" id="conferences">
+  <div class="wrap">
+    <div class="section-kicker reveal">On stage in 2026</div>
+    <h2 class="section-title reveal">Two conferences, two continents</h2>
+    <div class="conf-grid">
+      <div class="conf-card reveal">
+        <div class="conf-year mono">OCT 2026</div>
+        <div class="conf-name">IEEE TENCON 2026</div>
+        <div class="conf-loc">📍 Bali, Indonesia</div>
+        <p class="conf-desc">Presenting "Bio-Vision Surgical" — a gesture-interactive coronary visualization pipeline built for consumer hardware. IEEE Region 10's flagship annual conference.</p>
+      </div>
+      <div class="conf-card reveal reveal-d1">
+        <div class="conf-year mono">2026</div>
+        <div class="conf-name">IEEE EMBC 2026</div>
+        <div class="conf-loc">📍 Toronto, Canada</div>
+        <p class="conf-desc">Research poster on "Zero-Footprint Virtual Dissection" — touchless DICOM navigation for sterile operating rooms. IEEE Engineering in Medicine and Biology Conference.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="section-kicker reveal">Where the theory met the ward</div>
+    <h2 class="section-title reveal">Experience</h2>
+
+    <div class="exp-list">
+      <div class="exp-row reveal">
+        <div class="exp-date">JUN 2026 — PRESENT</div>
+        <div>
+          <div class="exp-role">Embedded Software Intern</div>
+          <div class="exp-org">KONE KTEC, Chennai</div>
+          <ul class="exp-bullets">
+            <li>Working with STM32-based embedded systems — peripheral configuration, debugging, register-level programming.</li>
+            <li>Hands-on with ADC, UART, GPIO, and embedded C using STM32CubeIDE.</li>
+            <li>Working within structured industrial software development and documentation workflows.</li>
+            <li>Exposure to Jama, JIRA, GitLab, CI/CD, and software cybersecurity practices.</li>
           </ul>
-        </nav>
-
-        <div class="contact-terminal">
-          <h3>SAVE POINT</h3>
-          <a href="mailto:dhakshathamylsamy@gmail.com" class="contact-link"
-            >📧 dhakshatha...</a
-          >
-          <a href="https://linkedin.com" class="contact-link"
-            >🔗 LinkedIn Profile</a
-          >
-          <button class="download-btn">DOWNLOAD CV.EXE</button>
         </div>
-      </aside>
-
-      <section class="content">
-        <header class="section-header">
-          <h2>MISSION LOG: PROJECTS</h2>
-        </header>
-
-        <div class="grid">
-          <div class="glass-card project-card">
-            <div class="card-tag">OCT 2024</div>
-            <h3>Motor Skill Enhancer Toy</h3>
-            <p class="objective">
-              <strong>OBJ:</strong> Improve fine motor skills for
-              specially-abled children via sensor integration.
-            </p>
-            <div class="tech-stack">
-              <span>Arduino</span> <span>3D Printing</span>
-              <span>Data Logging</span>
-            </div>
-          </div>
-
-          <div class="glass-card project-card">
-            <div class="card-tag">MAR 2025</div>
-            <h3>AI Diabetic Retinopathy</h3>
-            <p class="objective">
-              <strong>OBJ:</strong> Affordable diagnosis using CNN models and
-              Flask web deployment.
-            </p>
-            <div class="tech-stack">
-              <span>Python</span> <span>OpenCV</span> <span>Deep Learning</span>
-            </div>
-          </div>
-
-          <div class="glass-card project-card">
-            <div class="card-tag">MAY 2025</div>
-            <h3>SignSpeak: SL Translator</h3>
-            <p class="objective">
-              <strong>OBJ:</strong> Real-time Sign Language to Text conversion
-              via Computer Vision.
-            </p>
-            <div class="tech-stack">
-              <span>MediaPipe</span> <span>Raspberry Pi</span>
-              <span>OpenCV</span>
-            </div>
-          </div>
+      </div>
+      <div class="exp-row reveal">
+        <div class="exp-date">JUN — JUL 2025</div>
+        <div>
+          <div class="exp-role">Junior Biomedical Engineer Intern</div>
+          <div class="exp-org">Kovai Medical Center and Hospital, Kovilpalayam</div>
+          <ul class="exp-bullets">
+            <li>Exposure to biomedical equipment across multiple hospital departments.</li>
+            <li>Learned preventive, corrective, and annual maintenance practices.</li>
+            <li>Observed equipment deployment and clinical workflows in ICU and OT.</li>
+          </ul>
         </div>
-
-        <header class="section-header mt-4">
-          <h2>SKILL TREE</h2>
-        </header>
-        <div class="skill-tree glass-card">
-          <div class="skill-item">
-            <span>Python / Java</span>
-            <div class="skill-bar">
-              <div class="skill-fill" style="width: 90%"></div>
-            </div>
-          </div>
-          <div class="skill-item">
-            <span>Machine Learning</span>
-            <div class="skill-bar">
-              <div class="skill-fill" style="width: 80%"></div>
-            </div>
-          </div>
-          <div class="skill-item">
-            <span>MATLAB / Simulink</span>
-            <div class="skill-bar">
-              <div class="skill-fill" style="width: 85%"></div>
-            </div>
-          </div>
-          <div class="skill-item">
-            <span>3D Design (Fusion 360)</span>
-            <div class="skill-bar">
-              <div class="skill-fill" style="width: 75%"></div>
-            </div>
-          </div>
+      </div>
+      <div class="exp-row reveal">
+        <div class="exp-date">JAN 2025</div>
+        <div>
+          <div class="exp-role">Biomedical Engineer Intern</div>
+          <div class="exp-org">Medsby Healthcare &amp; Engineering Solutions, Coimbatore</div>
+          <ul class="exp-bullets">
+            <li>Developed an EMG-controlled prosthetic finger using Arduino-based signal acquisition.</li>
+            <li>Worked on syringe-pump integration and biomedical signal visualization via a custom GUI.</li>
+          </ul>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <header class="section-header mt-4">
-          <h2>ACHIEVEMENTS & BADGES</h2>
-        </header>
-        <div class="badge-grid">
-          <div class="badge platinum">🏆 MYOSA 2.0 - TOP 10</div>
-          <div class="badge gold">🏅 IEEE Xtreme 18.0 - Top 250</div>
-          <div class="badge gold">🏅 IEEE FLEPS Finalist</div>
-          <div class="badge blue">📜 NPTEL: Neuroscience</div>
-          <div class="badge blue">📜 NPTEL: Bioinformatics</div>
+<section id="leadership">
+  <div class="wrap">
+    <div class="section-kicker reveal">IEEE KPRIET Student Branch</div>
+    <h2 class="section-title reveal">Content writer to Chairperson</h2>
+    <p class="section-lede reveal">Three and a half years of IEEE leadership — currently chairing a student branch that runs 22 technical societies and affinity groups.</p>
+
+    <div class="stats-band reveal">
+      <div class="stat"><div class="num">22</div><div class="lbl">Societies &amp; affinity groups led</div></div>
+      <div class="stat"><div class="num">4</div><div class="lbl">Scholarships &amp; major awards</div></div>
+      <div class="stat"><div class="num">2</div><div class="lbl">International conferences, 2026</div></div>
+      <div class="stat"><div class="num">8.6</div><div class="lbl">CGPA / 10</div></div>
+    </div>
+
+    <div class="quote-block reveal">
+      <div class="quote-mark">"</div>
+      <blockquote>I believe in IEEE's mission of advancing technology for humanity — and in building opportunities that inspire students to learn, innovate, and lead.</blockquote>
+      <div class="quote-cite">Chairperson, IEEE KPRIET Student Branch · IEEE SPS Ambassador · IEEE MAS Best Student Volunteer, 2025</div>
+    </div>
+
+    <div class="section-kicker reveal" style="margin-top:20px;">Awards &amp; recognition</div>
+    <div class="awards-grid reveal">
+      <div class="award-cell"><div class="yr mono">2026</div><div class="nm">IEEE I&amp;M Undergraduate Scholarship</div><div class="by">IEEE Instrumentation &amp; Measurement Society</div></div>
+      <div class="award-cell"><div class="yr mono">2026</div><div class="nm">Professional Achievement Award</div><div class="by">IEEE Madras Section</div></div>
+      <div class="award-cell"><div class="yr mono">2025</div><div class="nm">Best Student Volunteer Award</div><div class="by">IEEE Madras Section</div></div>
+      <div class="award-cell"><div class="yr mono">2025</div><div class="nm">SPS Undergraduate Scholarship</div><div class="by">IEEE Signal Processing Society</div></div>
+      <div class="award-cell"><div class="yr mono">2026</div><div class="nm">MYOSA 4.0 Finalist</div><div class="by">IEEE Sensors Council / APSCON</div></div>
+      <div class="award-cell"><div class="yr mono">2025</div><div class="nm">FLEPS Hackathon + Pitch Finalist</div><div class="by">IEEE FLEPS, NUS Singapore</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-kicker reveal">Tech stack</div>
+    <h2 class="section-title reveal">Tools of the trade</h2>
+    <div class="spec-grid">
+      <div class="reveal">
+        <div class="spec-cat">Biomedical &amp; research</div>
+        <div class="spec-items">
+          <span class="spec-item">Biomedical Instrumentation</span><span class="spec-item">Signal Processing</span>
+          <span class="spec-item">Medical Imaging</span><span class="spec-item">DICOM</span><span class="spec-item">Biosensing</span>
         </div>
-      </section>
-    </main>
-    <script src="script.js"></script>
-  </body>
+      </div>
+      <div class="reveal">
+        <div class="spec-cat">Embedded &amp; programming</div>
+        <div class="spec-items">
+          <span class="spec-item">Python</span><span class="spec-item">Java</span><span class="spec-item">Embedded C</span>
+          <span class="spec-item">Arduino</span><span class="spec-item">ESP32</span><span class="spec-item">STM32</span><span class="spec-item">MATLAB</span>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="spec-cat">AI &amp; computer vision</div>
+        <div class="spec-items">
+          <span class="spec-item">Machine Learning</span><span class="spec-item">MediaPipe</span><span class="spec-item">OpenCV</span>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="spec-cat">Software &amp; tools</div>
+        <div class="spec-items">
+          <span class="spec-item">STM32CubeIDE</span><span class="spec-item">TypeScript</span><span class="spec-item">Electron</span>
+          <span class="spec-item">Cornerstone.js</span><span class="spec-item">Git / GitLab</span><span class="spec-item">Fusion 360</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="footer-glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="section-kicker reveal">Get in touch</div>
+    <div class="footer-title reveal">Let's build something that reads a signal well.</div>
+    <p class="footer-sub reveal">Open to biomedical R&amp;D collaborations, IEEE initiatives, and conversations about medtech for low-resource settings. If you're at TENCON this week — come say hello.</p>
+    <div class="footer-links reveal">
+      <a href="mailto:dhakshathamylsamy@outlook.com">✉ Email</a>
+      <a href="https://www.linkedin.com/in/dhakshatha-m-k" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://github.com/DhakshathaMylsamy" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="https://dhakshathamylsamy.github.io/links/" target="_blank" rel="noopener">All links ↗</a>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Dhakshatha M K · Coimbatore, India</span>
+      <span>Built &amp; hosted on GitHub Pages</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // nav scroll state
+  const nav = document.getElementById('siteNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive:true });
+
+  // mobile nav toggle
+  const toggle = document.getElementById('navToggle');
+  const links = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open);
+  });
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    links.classList.remove('open'); toggle.setAttribute('aria-expanded','false');
+  }));
+
+  // scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold:0.14 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // hero trace — thin single-line vital trace, minimal
+  const canvas = document.getElementById('trace');
+  const ctx = canvas.getContext('2d');
+  let w,h,dpr;
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio||1,2);
+    w = canvas.clientWidth; h = canvas.clientHeight;
+    canvas.width = w*dpr; canvas.height = h*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  window.addEventListener('resize', resize); resize();
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let t=0;
+  function pulseAt(x, phase){
+    const p = ((x+phase)%1+1)%1;
+    if (p>0.46 && p<0.60){
+      const l=(p-0.46)/0.14;
+      if (l<0.28) return -l*8;
+      if (l<0.45) return (l-0.28)/0.17*36-2.2;
+      if (l<0.62) return 34-(l-0.45)/0.17*44;
+      return -10+(l-0.62)/0.38*10;
+    }
+    return Math.sin(p*Math.PI*2)*1;
+  }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    const baseline=h*0.55;
+    const speed = reduceMotion?0:0.00022;
+    const phase=t*speed;
+    ctx.beginPath(); ctx.lineWidth=1.4; ctx.strokeStyle='rgba(217,78,104,0.55)';
+    ctx.shadowColor='rgba(217,78,104,0.4)'; ctx.shadowBlur=8;
+    for(let x=0;x<=w;x+=3){
+      const nx=(x/w)*2.4;
+      const y=baseline-pulseAt(nx, phase*60*60);
+      if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    }
+    ctx.stroke(); ctx.shadowBlur=0;
+    if(!reduceMotion){ t+=16; requestAnimationFrame(draw); }
+  }
+  draw();
+</script>
+</body>
 </html>
